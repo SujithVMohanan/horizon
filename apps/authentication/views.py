@@ -3,6 +3,8 @@ from django.http import  JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+
 logger = logging.getLogger(__name__)
 
 
@@ -22,10 +24,11 @@ class LoginView(View):
             password = request.POST.get('password')
             user = authenticate(username=username, password=password)
 
-            if user is not None and user.is_admin == True:  
+            if user is not None:  
                 login(request,user)
                 self.response_format['status_code'] = 100
                 self.response_format['message'] = f"You are now logged in as {user.full_name}"
+                messages.success(request, f"You are now logged in as {user.username}")
             else:
                 self.response_format['message'] = 'Invalid username or password'
 
