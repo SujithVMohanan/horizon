@@ -1,0 +1,346 @@
+{% extends 'layouts/apps.html' %}
+{% load static %}
+
+
+{% block content %}
+
+	<!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        
+        
+
+        {% include 'layouts/breadcrumbs.html' %}
+
+
+
+
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxl">
+                <!--begin::Form-->
+                <form id="create-or-update-product-form" class="form d-flex flex-column flex-lg-row"  method="POST" enctype="multipart/form-data"  action="{% url 'product:product.create' %}">
+                    {% csrf_token %}
+    
+                    <input type="hidden" name="product_id" value="{{product.id}}" />
+                    <input type="hidden" name="product_uuid" value="{{uuid}}" />
+                    <!--begin::Aside column-->
+                    
+                    <!--end::Aside column-->
+                    <!--begin::Main column-->
+                    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+                        <!--begin:::Tabs-->
+                        <!--end:::Tabs-->
+                        <!--begin::Tab content-->
+                        <div class="tab-content">
+                            <!--begin::Tab pane-->
+                            <div class="tab-pane fade show active" id="create-or-update-product-general" role="tab-panel">
+                                <div class="d-flex flex-column gap-7 gap-lg-10">
+    
+                                    
+                                    <div class="card card-flush py-4">
+                                        
+                                        <div class="card-header">
+                                            <div class="card-title">
+                                                <h2>Product details</h2>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card-body pt-0 ">
+    
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Name</label>
+                                                        <input type="text" name="name" value="{{product.name}}" class="form-control mb-2"  placeholder="Enter product name" {% if product.corporate_user.user_type == '1' %}  readonly  {% endif %} />
+                                                    </div>
+
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Category</label>
+                                                        <select class="form-select mb-2" name="category" data-control-select-option="category" data-control="select2"  data-hide-search="false" data-placeholder="Select an option" {% if product.corporate_user.user_type == '1' %}  disabled  {% endif %}>
+                                                            <option ></option>
+                                                            {% for category in categories %}
+                                                                <option {% if product.category_id|stringformat:'s' == category.id|stringformat:'s' %} selected   {% endif %} value="{{category.id}}"  >{{category.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">User Name</label>
+                                                        <select class="form-select mb-2" name="corp_user" data-control-select-option="corp_user" data-control="select2"  data-hide-search="false" data-placeholder="Select an option" {% if product.corporate_user.user_type == '1' %}  disabled  {% endif %}>
+                                                            <option ></option>
+                                                            {% for corporate_user in corporate_users %}
+                                                                <option {% if product.corporate_user_id|stringformat:'s' == corporate_user.id|stringformat:'s' %} selected {% endif %} value="{{corporate_user.id}}"  >{% if corporate_user.user_type == '1' %}KNHSFPIONEAON {% else %} {{corporate_user.company_name}} {% endif %}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="form-label" >Brand</label>
+                                                        <select class="form-select mb-2" name="brand" data-control="select2"  data-control-select-option="brand" data-hide-search="false" data-placeholder="Select an option" {% if product.corporate_user.user_type == '1' %}  disabled  {% endif %}>
+                                                            <option ></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Price</label>
+                                                        <input type="text" name="price" value="{{product.price}}" class="form-control mb-2"  placeholder="Enter product price" {% if product.corporate_user.user_type == '1' %}  readonly {% endif %}   onkeypress="if  (!/^[0-9]*\.?[0-9]*$/.test(String.fromCharCode(event.which))) return false;"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-3 fv-row">
+                                                        <label class="form-label">Description</label>
+                                                        <textarea id="product_description"  class="form-control" name="product_description" placeholder="Enter description"  {% if product.corporate_user.user_type == '1' %}  readonly  {% endif %}>{{product.description | safe}}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="form-label required">Address</label>
+                                                        <textarea id="product_address"  class="form-control" name="product_address"  placeholder="Enter address"  {% if product.corporate_user.user_type == '1' %}  readonly  {% endif %}>{{product.address | safe}}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="form-label">Buying Status</label>
+                                                        <select class="form-select mb-2" name="buying_status" data-control="select2"  data-hide-search="false" data-placeholder="Select an option" {% if product.corporate_user.user_type == '1' %}  disabled  {% endif %}>
+                                                            <option ></option>
+                                                            <option {% if product.buying_status == 1  %} selected {% endif %} value="1"> Available </option>
+                                                            <option {% if product.buying_status == 2  %} selected {% endif %} value="2"> Sold-out </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+    
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Contact name</label>
+                                                        <input type="text" name="contact_name" value="{{product.contact_name}}" class="form-control mb-2"  placeholder="Enter contact name" {% if product.corporate_user.user_type == '1' %}  readonly  {% endif %} />
+                                                    </div>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Contact number</label>
+                                                        <input type="text" id="contact_number"name="contact_number" value="{{product.contact_number}}" class="form-control mb-2"  placeholder="Enter your contact number" {% if product.corporate_user.user_type == '1' %}  readonly {% endif %} onkeypress="if  (!/^[0-9]*$/.test(String.fromCharCode(event.which))) return false;" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Contact email</label>
+                                                        <input type="text" id="account_holder_email" autocomplete="one-time-code" name="contact_email" value="{{product.contact_email}}" class="form-control mb-2"  placeholder="Enter your contact email"  {% if product.corporate_user.user_type == '1' %}  readonly  {% endif %} />
+                                                    </div>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Location</label>
+                                                        <select class="form-select mb-2" name="location" data-control="select2"  data-hide-search="false" data-placeholder="Select an option" {% if product.corporate_user.user_type == '1' %}  disabled  {% endif %}>
+                                                            <option ></option>
+                                                            {% for location in locations %}
+                                                                <option {% if product.location_id|stringformat:'s' == location.id|stringformat:'s' %} selected  {% endif %} value="{{location.id}}"  >{{location.district_code}} - {{location.district_name}}</option>
+                                                            {% endfor %}
+        
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Contact start time </label>
+                                                        <input type="time" name="contact_start_time" value="{{product.contact_start_time|date:'H:i'}}" id="contact_start_time_picker"  class="form-control mb-2"  placeholder="Enter contact start time" {% if product.corporate_user.user_type == '1' %}  readonly {% endif %} />
+                                                    </div>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Contact end time</label>
+                                                        <input type="time" name="contact_end_time" value="{{product.contact_end_time|date:'H:i'}}" id="contact_end_time_picker"  class="form-control mb-2"  placeholder="Enter contact end time" {% if product.corporate_user.user_type == '1' %}  readonly {% endif %}/>
+                                                    </div>
+                                                    <div id="alertContainer"></div>
+                                                </div>
+                                            </div>
+
+                                            
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Latitude</label>
+                                                        <input type="text" name="latitude" id="latitude" data-google-location="latitude" readonly value="{{product.latitude}}" class="form-control mb-2"  placeholder="Enter latitude" {% if product.corporate_user.user_type == '1' %}  readonly {% endif %} />
+                                                    </div>
+                                                </div>
+
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Search Your Location</label>
+                                                        <input type="search"  id="place" name="place"  data-google-place="place"  class="form-control mb-2"  placeholder="Find your location" {% if product.corporate_user.user_type == '1' %}  readonly {% endif %}/>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Longitude</label>
+                                                        <input type="text" id="longitude" name="longitude" data-google-location="longitude" readonly value="{{product.longitude}}" class="form-control mb-2"  placeholder="Enter longitude" {% if product.corporate_user.user_type == '1' %}  readonly {% endif %}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div id="map" style="height: 400px;"></div>
+                                            
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <label class="required form-label">Product Status</label>
+                                                    <select class="form-select mb-2" name="product_status" data-control="select2"  data-hide-search="false" data-placeholder="Select an option" {% if product.corporate_user.user_type == '1' %}  disabled {% endif %}>
+                                                        <option ></option>
+                                                        <option {% if product.is_active == 1  %} selected {% endif %} value="1">Active</option>
+                                                        <option {% if product.is_active == 0  %} selected {% endif %} value="0">Inactive</option>
+                                                    </select>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                </div>
+                                            </div>
+
+                                            <div class="fv-row">
+                                                <div class="dropzone " id="product_images_dropzone">
+                                                    <div class="dz-message needsclick">
+                                                        <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
+                                                        <div class="ms-4">
+                                                            <h3 class="fs-5 fw-bold text-gray-900 mb-1">Drop files here or clickto upload.</h3>
+                                                            <span class="fs-7 fw-semibold text-gray-400">Upload up to 6 files</span><br>
+                                                            <span class="fs-7 fw-semibold text-gray-400">Only image
+                                                                files with the extensions of *.png, *.jpg, and *.jpeg are accepted, and files under 1 MB are accepted</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+    
+                            <!--end::Tab pane-->
+                        </div>
+                        <!--end::Tab content-->
+                        <div class="d-flex justify-content-end">
+                            <!--begin::Button-->
+                            <a href="{% url 'product:product.index' %}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
+                            <!--end::Button-->
+                            <!--begin::Button-->
+                            {% if product.corporate_user.user_type != '1' %}  
+                            <button type="submit" id="create-or-update-product-submit" class="btn btn-primary">
+                                <span class="indicator-label">Save </span>
+                                <span class="indicator-progress">Please wait... 
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                            </button>
+                            {% endif %}
+                            <!--end::Button-->
+                        </div>
+                    </div>
+                    <!--end::Main column-->
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Content container-->
+        </div>
+        <!--end::Content-->
+    </div>
+    <!--end::Content wrapper-->
+	
+{% endblock content %}
+
+ 
+
+{% block script %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnDgIL3Hp0Bhzf9yuOtn4qAIVnAnzvRJE&libraries=places" ></script>
+    <script>
+        $(document).ready(function(){
+            Inputmask({
+                mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
+                greedy: false,
+                onBeforePaste: function (pastedValue, opts) {
+                    pastedValue = pastedValue.toLowerCase();
+                    return pastedValue.replace("mailto:", "");
+                },
+                definitions: {
+                    "*": {
+                        validator: '[0-9A-Za-z!#$%&"*+/=?^_`{|}~\-]',
+                        cardinality: 1,
+                        casing: "lower"
+                    }
+                }
+            }).mask("#account_holder_email");
+            
+            new Tagify(document.querySelector("#meta_keywords"));
+            $('#account_number').maxlength({
+                warningClass: "badge badge-warning",
+                limitReachedClass: "badge badge-success"
+            });
+
+            Inputmask({
+                "mask" :  "+(974)-9999-9999"
+            }).mask("#contact_number");
+
+
+              
+        });
+    </script>
+
+    <script>
+
+        var api_config = {
+            "product_image_upload_api_url":"{% url 'product:product.image.upload' %}",
+            "uuid" : "{{uuid}}",
+            "csrfmiddlewaretoken" : "{{ csrf_token }}",
+            "temporary_image_destroy_api_url" : "{% url 'account:account.temporary.image.destroy' %}",
+            "get_product_images_api_url" : "{% url 'product:get.product.images' %}",
+            "product_id" : "{{product.id}}",
+            "get_category_brands" : "{% url 'product:product.get.category.brands' %}", 
+            "data" : {
+                "category_id"    : "{{product.category.id}}",
+                "brand_id"       : "{{product.brand.id}}",
+                "latitude"       :  "{{product.latitude}}",
+                "longitude"      :  "{{product.longitude}}",
+                "place"          :  "{{product.place}}",
+                "corporate_user" :  "{{product.corporate_user.id}}",
+            }
+        }
+    </script>
+    
+    
+	
+    
+    <script src="{% static 'assets/js/custom/pages/product/product/create-or-update-product.js' %}?time={% now 'h:i:s' %}"></script>
+    <script>
+        google.maps.event.addDomListener(window, 'load', initializeMap);
+    </script> 
+
+
+{% endblock script %}

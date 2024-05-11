@@ -1,0 +1,496 @@
+{% extends 'layouts/apps.html' %}
+{% load static %}
+
+
+{% block content %}
+
+	<!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        
+        
+
+        {% include 'layouts/breadcrumbs.html' %}
+
+
+
+
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxl">
+                <!--begin::Form-->
+                <form id="create-or-update-user-form" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data" data-redirect-url="{% url 'users:users.index' %}"  action="">
+                    {% csrf_token %}
+    
+                    <input type="hidden" name="user_id" id="casestudy_id" value="{{users.id}}" />
+                        <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+                            <!--begin::Logo settings-->
+                            <div class="card card-flush py-4">
+                                
+                                <div class="card-header">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2 class="">Profile Image</h2>
+                                    </div>
+                                    <!--end::Card title-->
+                                </div>
+                                
+                                <div class="card-body text-center pt-0">
+                                    <!--begin::image input-->
+                                    <div class="fv-row">
+                                        <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true" {% if users.image is not None %} style="background-image: url({{ users.image.url }})" {% else %} style="background-image: url({% static 'assets/media/svg/files/blank-image.svg' %})" {% endif %}>
+                                            <!--begin::Preview existing user image-->
+                                            <div class="image-input-wrapper w-150px h-150px" style="width: 150px; height: 150px;"></div>
+                                            <!--end::Preview existing user image-->
+                                            
+                                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Profile Image">
+                                                    <i class="bi bi-pencil-fill fs-7"></i>
+                                                    <!--begin::Inputs-->
+                                                    
+                                                    <input type="file" name="user_profile_image" accept=".png, .jpg, .jpeg" />
+                                                    <input type="hidden" name="mall_thumbnail_remove" />
+                                                    <!--end::Inputs-->
+                                                </label>
+                                            
+                                                <!--begin::Cancel-->
+                                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel Profile Image">
+                                                    <i class="bi bi-x fs-2"></i>
+                                                </span>
+                                                <!--end::Cancel-->
+                                                <!--begin::Remove-->
+                                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove Profile Image">
+                                                    <i class="bi bi-x fs-2"></i>
+                                                </span>
+                                            <!--end::Remove-->
+                                            </div>
+                                        <!--end::image input-->
+                                        </div>
+                                        
+                                    <div class="text-muted fs-7">Only image files in *.png, *.jpg, and *.jpeg formats with a file size of 1 MB or less are accepted</div>
+                                </div>
+    
+                                <div class="card-header">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2 class="">Cover Image</h2>
+                                    </div>
+                                    <!--end::Card title-->
+                                </div>
+                                
+                                <div class="card-body text-center pt-0">
+                                    <!--begin::image input-->
+                                    <div class="fv-row">
+                                        <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true" {% if users.cover_image is not None %} style="background-image: url({{ users.cover_image.url }})" {% else %} style="background-image: url({% static 'assets/media/svg/files/blank-image.svg' %})" {% endif %}  >
+                                            <!--begin::Preview existing user image-->
+                                            <div class="image-input-wrapper w-150px h-150px"></div>
+                                            <!--end::Preview existing user image-->
+                                            
+                                            <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change cover image">
+                                                <i class="bi bi-pencil-fill fs-7"></i>
+                                                <!--begin::Inputs-->
+                                                <input type="file" name="user_cover_image" accept=".png, .jpg, .jpeg"  />
+                                                <input type="hidden" name="mall_cover_image_remove" />
+                                                <!--end::Inputs-->
+                                            </label>
+                                            
+                                            <!--begin::Cancel-->
+                                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel cover image">
+                                                <i class="bi bi-x fs-2"></i>
+                                            </span>
+                                            <!--end::Cancel-->
+                                            <!--begin::Remove-->
+                                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove cover image">
+                                                <i class="bi bi-x fs-2"></i>
+                                            </span>
+                                            <!--end::Remove-->
+                                        </div>
+                                    </div>
+                                    <!--end::image input-->
+                                    
+                                    <div class="text-muted fs-7">Only image files in *.png, *.jpg, and *.jpeg formats with a file size of 1 MB or less are accepted</div>
+                                    
+                                </div>
+    
+                                <!--end::Card body-->
+                            </div>
+    
+                            <!--end::Logo settings-->
+                        <!--begin::Status-->
+                        <div class="card card-flush py-4">
+                            
+                            <div class="card-header">
+                                <!--begin::Card title-->
+                                <div class="card-title">
+                                    <h2>Status</h2>
+                                </div>
+                                <!--end::Card title-->
+                                <!--begin::Card toolbar-->
+                                <div class="card-toolbar">
+                                    <div class="rounded-circle {% if users.is_active == 1 %} bg-success  {% else %} bg-danger  {% endif %}  w-15px h-15px"></div>
+                                </div>
+                                <!--begin::Card toolbar-->
+                            </div>
+                            
+                            
+                            <div class="card-body pt-0">
+                                <!--begin::Select2-->
+                                <select class="form-select mb-2" required name="user_status" data-control="select2" data-hide-search="true" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select" {% if users.user_type == '1' %} disabled {% endif %}>
+                                    <option ></option>
+                                    <option value="1" {% if users.is_active == 1 %} selected="selected" {% endif %}>Active</option>
+                                    <option value="0" {% if users.is_active == 0 %} selected="selected" {% endif %}>Inactive</option>
+                                </select>
+                                <!--end::Select2-->
+                                
+                                <div class="text-muted fs-7">Set the user status.</div>
+                                
+                            
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                        <!--end::Status-->
+            
+                    
+                    </div>
+                    <!--end::Aside column-->
+                    <!--begin::Main column-->
+                    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+                        <!--begin:::Tabs-->
+                        <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-bold mb-n2">
+                            <!--begin:::Tab item-->
+                            <li class="nav-item">
+                                <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#create-or-update-user-general">General</a>
+                            </li>
+                            <!--end:::Tab item-->
+                        </ul>
+                        <!--end:::Tabs-->
+                        <!--begin::Tab content-->
+                        <div class="tab-content">
+                            <!--begin::Tab pane-->
+                            <div class="tab-pane fade show active" id="create-or-update-user-general" role="tab-panel">
+                                <div class="d-flex flex-column gap-7 gap-lg-10">
+                                    
+                                    <div class="card card-flush py-4">
+                                        
+                                        <div class="card-header">
+                                            <div class="card-title">
+                                                <h2>General</h2>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card-body pt-0 ">
+    
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="form-label">{% if users.user_type == '1' %} Full Name {% else %} Company Name {% endif %}</label>
+                                                        <input type="text" maxlength="100" name="full_name" value="{% if users.user_type == '1' %} {{users.full_name}} {% else %} {{users.company_name}} {% endif %}" placeholder="company name" class="form-control mb-2" {% if users.user_type == '1' %} readonly {% endif %} />
+                                                    </div>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Username</label>
+                                                        <input type="text" id="username_id" name="username"    maxlength="50" value="{{users.username}}" class="form-control mb-2" placeholder="username" {% if users.user_type == '1' %} readonly {% endif %}/>
+                                                        <div class="error-message" style="color: red;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <label class="form-label">Category</label>
+                                                    <select id="category_select" class="form-select mb-2" name="category[]" placeholder="category" data-control="select2" {% if users.user_type == '1' %} disabled {% endif %} data-hide-search="true" data-placeholder="Select Category ">
+                                                        <option value="" selected disabled>Select Category</option>
+                                                        {% for type in category %}
+                                                            <option value="{{type.id}}" {% for i in business_category %}  {% if type == i.business_category %} selected {% endif %} {% endfor %}>{{type.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                
+
+                                                <!--Accept Multiple-->
+                                                {% comment %} <div class="fv-row w-100 flex-md-root">
+                                                    <label class="form-label">Category</label>
+                                                    <select   id="category_select" class="form-select mb-2"  name="category[]" placeholder="category"  data-control="select2"{% if users.user_type == '1' %} disabled {% endif %} data-hide-search="true" multiple>
+                                                        {% for type in category %}
+                                                        
+
+                                                            <option value="{{type.id}}" {% for i in business_category %}  {% if type == i.business_category %} selected  {% endif %} {% endfor %} >{{type.name}}</option>
+                                                        
+
+                                                        {% endfor %}
+                                                    </select>
+                                                </div> {% endcomment %}
+                                                
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <label class="form-label">Industry Type </label>
+                                                    <select class="form-select mb-2" name="industry_type" data-control="select2"  data-hide-search="true" data-placeholder="Select Industry Type" {% if users.user_type == '1' %} disabled {% endif %}    >
+                                                        {% for industry in industry_type %}
+                                                        <option></option>
+                                                        <option {% if users.industry_type == industry %} selected {% endif %} value="{{industry.id}}">{{industry.name}}</option>
+                                                        {% endfor %}
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="form-label">Email</label>
+                                                        <input type="text" id="account_holder_email" name="email" autocomplete="one-time-code" value="{{users.email}}" placeholder="email" class="form-control mb-2" {% if users.user_type == '1' %} readonly {% endif %} />
+                                                        <div class="error-message" style="color: red;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Mobile</label>
+                                                        <input type="text" id="contact_number" name="mobile" autocomplete="one-time-code" value="{{users.mobile}}" class="form-control mb-2" {% if users.user_type == '1' %} readonly {% endif %} />
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="required form-label">Password</label>
+                                                        <input type="text" name="password" autocomplete="one-time-code" pattern="[A-Za-z0-9]+" onkeydown="if(['Space'].includes(arguments[0].code)){return false;}"class="form-control mb-2"  placeholder="Enter your password" {% if users.user_type == '1' %} readonly {% endif %} />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <label class="form-label">User Type </label>
+                                                    <select class="form-select mb-2" name="user_type" disabled data-control="select2"  data-hide-search="true" data-placeholder="Select an option">
+                                                        {% if users.user_type == '2' or users is None %}
+                                                            {% for type in user_types %}
+        
+                                                                <option value="{{type.id}}"  {% if users.user_type|stringformat:'s' == type.id|stringformat:'s' %} selected  {% endif %} >Corporate</option>
+        
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {% for type in user_types %}
+        
+                                                                <option value="{{type.id}}"  {% if users.user_type|stringformat:'s' == type.id|stringformat:'s' %} selected  {% endif %} >{{ type.name }}</option>
+        
+                                                            {% endfor %}
+                                                        {% endif %}    
+                                                    </select>
+                                                </div>
+                                                <!-- <div class="fv-row w-100 flex-md-root">
+                                                    <div class="fv-row w-100 flex-md-root">
+                                                        <div class="mb-5 fv-row">
+                                                            <label class="form-label">Reference Number</label>
+                                                            <input type="text" name="reference_number" value="{{users.reference_number|default_if_none:''}}" class="form-control mb-2" maxlength="20" />
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                                <div class="fv-row w-100 flex-md-root">
+                                                    <div class="fv-row w-100 flex-md-root">
+                                                        
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+    
+                                           
+                                            {% if users.user_type == 1  %}
+                                                <div class="d-flex mb-10 flex-wrap gap-5 mt-10">
+                                                    <div class="fv-row w-100 flex-md-root">
+                                                        <div class="mb-5 fv-row">
+                                                            <label class="form-label">Date Of Birth</label>
+                                                            <input type="text" name="date_of_birth" value="{{users.date_of_birth|default_if_none:''}}" class="form-control mb-2" readonly />
+                                                        </div>
+                                                    </div>
+                                                    <div class="fv-row w-100 flex-md-root"> 
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            
+    
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+    
+    
+                            <!--end::Tab pane-->
+                        </div>
+                        <!--end::Tab content-->
+                        <div class="d-flex justify-content-end mb-5" style='padding-top: 20px;'>
+                            <!--begin::Button-->
+                            <a href="{% url 'users:users.index' %}"
+                                id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
+                            <!--end::Button-->
+                            <!--begin::Button-->
+                            {% if users.user_type != '1'  %}
+                                <button type="button" id="create-or-update-user-submit" class="btn btn-primary">
+                                    <span class="indicator-label">Save </span>
+                                </button>
+
+                                <button type="button" id="banner-loader-text" class="indicator-progress btn btn-primary">
+                                    <span class="">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                </button>
+                            {% endif %}
+                            <!--end::Button-->
+                        </div>
+
+
+                    </div>
+                    <!--end::Main column-->
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Content container-->
+        </div>
+        <!--end::Content-->
+    </div>
+    <!--end::Content wrapper-->
+	
+{% endblock content %}
+
+
+
+{% block script %}
+<script>
+    var api_config = {
+        
+        "validation"              : "{% url 'admins:admin.email_exist_check' %}",
+        "create_or_update_from"   : "{% url 'users:users.create' %}",
+        "csrfmiddlewaretoken"     : "{{ csrf_token }}",
+    }
+</script>
+
+<script src="{% static 'assets/js/custom/pages/users/save-user.js' %}?time={% now 'h:i:s' %}"></script>
+
+
+<script>
+    var last_valid_selection = null;
+
+        $('#category_select').change(function(event) {
+
+        if ($(this).val().length > 3) {
+
+            $(this).val(last_valid_selection);
+        } else {
+            last_valid_selection = $(this).val();
+        }
+        });
+
+  
+        $(document).ready(function(){
+            Inputmask({
+                mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
+                greedy: false,
+                onBeforePaste: function (pastedValue, opts) {
+                    pastedValue = pastedValue.toLowerCase();
+                    return pastedValue.replace("mailto:", "");
+                },
+                definitions: {
+                    "*": {
+                        validator: '[0-9A-Za-z!#$%&"*+/=?^_`{|}~\-]',
+                        cardinality: 1,
+                        casing: "lower"
+                    }
+                }
+            }).mask("#account_holder_email");
+            
+            new Tagify(document.querySelector("#meta_keywords"));
+            $('#account_number').maxlength({
+                warningClass: "badge badge-warning",
+                limitReachedClass: "badge badge-success"
+            });
+
+            Inputmask({
+                "mask" :  "+(974)-9999-9999"
+            }).mask("#contact_number");
+
+
+            
+        });
+    </script>
+
+    <script>
+        $('[name="user_status"]').change(function(e){
+            let element_status = document.querySelector('.rounded-circle');
+            if ($(this).val() == 1 ){
+                element_status.classList.remove('bg-danger');
+                element_status.classList.add('bg-success');
+
+            } else {
+                element_status.classList.remove('bg-success');
+                element_status.classList.add('bg-danger');
+            }
+        }
+        )
+
+        $('input[name="email"], input[name="username"]').on('keyup', function() {
+            // Get the value from the input field
+            var inputValue = $(this).val();
+        
+            // Check if the field is empty
+            if (inputValue.trim() === '') {
+                // Clear the error message, show the Save button, and enable form submission
+                $('.error-message').text('');
+                $('#create-or-update-user-submit').show();
+                $('form').off('submit');
+                return;
+            }
+        
+            var casestudyId = $('#casestudy_id').val();
+            var fieldName = $(this).attr('name');
+        
+            // Create the data object to send in the AJAX request
+            var postData = {
+                field: fieldName,
+                instance_id: casestudyId,
+                value: inputValue
+            };
+        
+            // Cache the Save button element
+            var saveButton = $('#create-or-update-user-submit');
+            var errorMessageElement = $(this).siblings('.error-message');
+        
+            // Make the AJAX POST request
+            $.ajax({
+                type: "POST",
+                url: api_config.validation,
+                data: postData,
+                success: function(response) {
+                    // Handle the successful response here
+                    console.log("AJAX request successful:", response);
+        
+                    // Clear the error message for the current field
+                    errorMessageElement.text('');
+        
+                    // Check if the response indicates an error
+                    if (response.status_code !== 200) {
+                        // Display the error message for the current field
+                        errorMessageElement.text(response.message);
+        
+                        // Hide the Save button
+                        //saveButton.hide();
+        
+                        // Disable form submission
+                        $('form').on('submit', function(event) {
+                            event.preventDefault();
+                        });
+                    } else {
+                        // Clear the error message, show the Save button, and enable form submission
+                        $('.error-message').text('');
+                        //saveButton.show();
+                        $('form').off('submit');
+                    }
+                },
+                error: function(error) {
+                    // Handle any errors here
+                    console.error("AJAX request error:", error);
+                }
+            });
+        });
+
+</script>
+
+
+{% endblock script %}
